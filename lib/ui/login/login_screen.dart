@@ -1,100 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:shop_market/data/repository/login_repository.dart';
-import 'package:shop_market/services/api_service.dart';
-import 'package:shop_market/ui/tab_box/tab_box.dart';
-import 'package:shop_market/utils/colors/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_market/cubits/login/login_cubit.dart';
+import 'package:shop_market/ui/login/widgets/ask_role_dialog.dart';
+import 'package:shop_market/ui/login/widgets/login_text_field.dart';
+import 'package:shop_market/utils/size/size_extension.dart';
+import '../../data/models/status/form_status.dart';
+import '../../utils/colors/app_colors.dart';
+import '../../utils/ui_utils/show_error_message.dart';
+import '../widgets/global_button.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.apiService});
-  final ApiService apiService;
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
+  bool isChecked = false;
+  String username = "";
+  String password = "";
 
-  late LoginRepository loginRepository;
-  @override
-  void initState() {
-    loginRepository = LoginRepository(apiService: widget.apiService);
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 60,
-        backgroundColor: Colors.yellow,
-        centerTitle: true,
-        title: const Text(
-          "Ulmo",
-          style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 32,
-              color: AppColors.black),
-        ),
-      ),
-      backgroundColor: Colors.yellow,
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            TextField(
-              textInputAction: TextInputAction.next,
-              controller: _controller1,
-              decoration: InputDecoration(
-                  hintText: "Enter username",
-                  hintStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black
-                  ),
-                  enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16))),
-            ),
-            SizedBox(height: 40,),
-            TextField(
-              textInputAction: TextInputAction.done,
-              controller: _controller2,
-              decoration: InputDecoration(
-                  hintText: "Enter password",
-                  hintStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black
-                  ),
-                  enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16))),
-            ),
-            SizedBox(height: 40,),
-            ElevatedButton(onPressed: () async{
-              if(await loginRepository.loginUser(username: _controller1.text, password: _controller2.text)){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return TabBox();
-                }));
-              }else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Parol yoki username xato")));
-              }
-            }, child: SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Login", style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black
-                  ),),
-                ],
+      body: BlocConsumer<LoginCubit, LoginState>(
+        builder: (context, state) {
+          return Stack(children: [
+            // SizedBox(height: MediaQuery.of(context).size.height,
+            //   width: MediaQuery.of(context).size.width,
+            //   child: Image.asset(AppIcons.s, fit: BoxFit.cover,),
+            // ),
+            Center(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                    bottom: 48.h, left: 24.w, right: 24.w, top: 24.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    90.ph,
+                    Text(
+                      "Sign in",
+                      style: TextStyle(
+                          fontFamily: "Raleway",
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.c_314D45
+                      ),
+                    ),
+                    60.ph,
+                    Column(
+                      children: [
+                        LoginTextField(
+                          hintText: "Enter username",
+                          onChanged: (v) {
+                            username = v;
+                          },
+                        ),
+                        40.ph,
+                        LoginTextField(
+                          hintText: "Enter password",
+                          onChanged: (v) {
+                            password = v;
+                          },
+                        ),
+                        40.ph,
+                        GlobalButton(
+                          title: "Sign Up",
+                          radius: 100,
+                          onTap: () {
+                            if (password.isNotEmpty && username.isNotEmpty) {
+                              context.read<LoginCubit>().logIn(context: context, username: username, password: password);
+                            }else{
+                              showErrorMessage(message: "Malumotlarni to'liq kiriting!", context: context);
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                    60.ph,
+                  ],
+                ),
               ),
-            ))
-          ],
-        ),
+            )
+          ],);
+        },
+        listener: (context, state) async {
+          if (state.status == FormStatus.authenticated) {
+            if (context.mounted) {
+              showRoleDialog(context);
+              print("Success");
+            }
+          } else if (state.status == FormStatus.failure) {
+            showErrorMessage(message: state.statusMessage, context: context);
+          }
+        },
       ),
     );
   }
