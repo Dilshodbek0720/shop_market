@@ -9,6 +9,7 @@ import 'package:shop_market/data/repository/product_repository.dart';
 import 'package:shop_market/services/api_service.dart';
 import 'package:shop_market/ui/app_routes.dart';
 import 'package:shop_market/utils/size/screen_size.dart';
+import 'cubits/tab/tab_cubit.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MainApp extends StatelessWidget {
       RepositoryProvider(create: (context) => LoginRepository(apiService: apiService)),
     ], child: MultiBlocProvider(
         providers: [
-          // BlocProvider(create: (context) => TabCubit()),
+          BlocProvider(create: (context) => TabCubit()),
           BlocProvider(create: (context) => LoginCubit(context.read<LoginRepository>())),
           BlocProvider(create: (context) => ProductBloc(productRepository: context.read<ProductRepository>())),
           // BlocProvider(create: (context) => CoffeeBloc(coffeeRepo: context.read<CoffeeRepo>())),

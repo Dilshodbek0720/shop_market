@@ -37,7 +37,8 @@ class ProductModel {
       "price":price,
       "description":description,
       "category":category,
-      "image":image
+      "image":image,
+      "rating":ratingModel
     };
   }
 }
