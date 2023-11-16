@@ -133,5 +133,49 @@ class ApiService {
     }
   }
 
+  Future<UniversalData> getCategoryProducts({required String categoryName}) async {
+    Response response;
+    try {
+      response = await _dio.get(categoryName.isNotEmpty
+          ? '/products/category/$categoryName'
+          : "/products");
+      if (response.statusCode == 200) {
+        return UniversalData(
+          data: (response.data as List?)
+              ?.map((e) => ProductModel.fromJson(e))
+              .toList() ??
+              [],
+        );
+      }
+      return UniversalData(error: "Error: ${response.statusCode}");
+    }on DioException catch (e) {
+      return UniversalData(error: "Dio Error: $e");
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
+
+  // ---------------CATEGORIES-------------------
+
+  Future<UniversalData> getAllCategoryProducts() async {
+    Response response;
+    try {
+      response = await _dio.get("/products/categories");
+      if (response.statusCode == 200) {
+        return UniversalData(
+          data: (response.data as List?)
+              ?.map((e) => e as String)
+              .toList() ??
+              [],
+        );
+      }
+      return UniversalData(error: "Error: ${response.statusCode}");
+    }on DioException catch (e) {
+      return UniversalData(error: "Dio Error: $e");
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
+
 
 }

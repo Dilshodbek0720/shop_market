@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_market/ui/tab_box/profile/profile_screen.dart';
+import '../../blocs/product_bloc/product_bloc.dart';
 import '../../cubits/tab/tab_cubit.dart';
 import '../../utils/colors/app_colors.dart';
 import '../../utils/icons/app_icons.dart';
@@ -22,6 +23,7 @@ class _TabBoxState extends State<TabBox> {
 
   @override
   void initState() {
+    context.read<ProductBloc>()..add(GetCategoryProductsEvent(categoryName: ""));
     screens = [
       const HomeScreen(),
       const OrderScreen(),

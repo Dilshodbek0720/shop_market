@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    context.read<ProductBloc>().add(GetProductsEvent());
+    // context.read<ProductBloc>()..add(GetCategoryProductsEvent(categoryName: ""));
     super.initState();
   }
 
@@ -28,10 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Home Screen"),
+        ),
         body: Column(
           children: [
-            // 16.ph,
-            // const HomeAppbar(),
             10.ph,
             Expanded(
               child: BlocConsumer<ProductBloc, ProductStates>(

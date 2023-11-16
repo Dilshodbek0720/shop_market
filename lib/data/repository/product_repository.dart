@@ -18,4 +18,7 @@ class ProductRepository{
 
   Future<UniversalData> addProduct({required ProductModel productModel}) async =>
       await apiService.addProduct(productModel: productModel);
+
+  Future<UniversalData> getCategoryProducts({required String categoryName}) async =>
+      await apiService.getCategoryProducts(categoryName: categoryName);
 }

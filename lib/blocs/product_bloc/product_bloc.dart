@@ -34,6 +34,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductStates> {
     on<AddProductEvent>(addProduct);
     on<UpdateProductEvent>(updateProduct);
     on<DeleteProductEvent>(deleteProduct);
+    on<GetCategoryProductsEvent>(getCategoryProducts);
   }
 
   final ProductRepository productRepository;
@@ -45,6 +46,24 @@ class ProductBloc extends Bloc<ProductEvent, ProductStates> {
 
     if (response.error.isEmpty) {
       print(response.data);
+      emit(state.copyWith(
+          status: FormStatus.success,
+          products: response.data as List<ProductModel>
+      ));
+    } else {
+      emit(state.copyWith(
+        status: FormStatus.failure,
+      ));
+    }
+
+  }
+
+  Future<void> getCategoryProducts(
+      GetCategoryProductsEvent event, Emitter<ProductStates> emit) async {
+    emit(state.copyWith(status: FormStatus.loading));
+    UniversalData response = await productRepository.getCategoryProducts(categoryName: event.categoryName);
+
+    if (response.error.isEmpty) {
       emit(state.copyWith(
           status: FormStatus.success,
           products: response.data as List<ProductModel>
