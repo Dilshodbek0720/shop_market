@@ -26,20 +26,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       child: TextField(
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.go,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            fontSize: 18.sp, fontWeight: FontWeight.w400, letterSpacing: 0.2),
+            fontSize: 16.sp, fontWeight: FontWeight.w400, letterSpacing: 0.2),
         onChanged: widget.onChanged,
-        // inputFormatters: [maskFormatter],
         decoration: InputDecoration(
             counterText: "",
-            // contentPadding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
+            contentPadding: EdgeInsets.only(left: 20.w, right: 20.w, top: 16.h, bottom: 16.h),
             hintText: widget.hintText,
             hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontSize: 18.sp, fontWeight: FontWeight.w400, letterSpacing: 0.2),
+                fontSize: 16.sp, fontWeight: FontWeight.w400, letterSpacing: 0.2),
             prefixIcon: widget.isSearch ? Container(
               height: 24.w,
               width: 24.w,

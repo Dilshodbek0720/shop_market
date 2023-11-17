@@ -21,4 +21,7 @@ class ProductRepository{
 
   Future<UniversalData> getCategoryProducts({required String categoryName}) async =>
       await apiService.getCategoryProducts(categoryName: categoryName);
+
+  Future<UniversalData> getAllCategoriesProducts() async =>
+      await apiService.getAllCategoryProducts();
 }

@@ -6,13 +6,13 @@ import 'package:shop_market/blocs/product_bloc/product_bloc.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
 import 'package:shop_market/data/models/universal_data.dart';
 import 'package:shop_market/data/repository/product_repository.dart';
+import 'package:shop_market/ui/tab_box/home/widgets/category_selector.dart';
 import 'package:shop_market/ui/tab_box/home/widgets/custom_text_field.dart';
 import 'package:shop_market/ui/tab_box/home/widgets/gridview_item.dart';
 import 'package:shop_market/ui/tab_box/home/widgets/home_appbar.dart';
-import 'package:shop_market/utils/size/screen_size.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
-import '../../../data/local/storage_repository.dart';
 import '../../../utils/icons/app_icons.dart';
+import '../../../utils/ui_utils/search_by_name.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,10 +22,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<ProductModel> products = [];
+  List<String> categories = [];
+  String activeCategoryName = "";
+  bool isLoading = false;
 
   @override
   void initState() {
-    // context.read<ProductBloc>()..add(GetCategoryProductsEvent(categoryName: ""));
+    _updateCategories();
+    _updateProducts();
     super.initState();
   }
 
@@ -41,17 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: BlocConsumer<ProductBloc, ProductStates>(
                 builder: (context, state){
-                  List<ProductModel> products = state.products;
                   return ListView(
                     children: [
                       CustomTextField(
                           hintText: "Search anything",
                           isSearch: true,
                           onChanged: (v) {
-                            // setState(() {
-                            //   // coffees = searchByName(snapshot.data!, v);
-                            // });
+                            setState(() {
+                              products = searchByName(state.products, v);
+                            });
                           }),
+                      CategorySelector(categories: categories, onCategorySelected: (selectedCategory) {
+                        activeCategoryName = selectedCategory;
+                        _updateProducts();
+                      },),
                       products.isNotEmpty ?
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -100,5 +108,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  _updateCategories() async {
+    setState(() {
+      isLoading = true;
+    });
+    UniversalData data = await context.read<ProductRepository>().getAllCategoriesProducts();
+    setState(() {
+      isLoading = false;
+      categories = data.data;
+    });
+  }
+
+  _updateProducts() async {
+    UniversalData data = await context.read<ProductRepository>().getCategoryProducts(categoryName: activeCategoryName);
+    setState(() {
+      products = data.data;
+    });
   }
 }

@@ -159,9 +159,11 @@ class ApiService {
 
   Future<UniversalData> getAllCategoryProducts() async {
     Response response;
+    print("fs");
     try {
       response = await _dio.get("/products/categories");
       if (response.statusCode == 200) {
+        print("Succees");
         return UniversalData(
           data: (response.data as List?)
               ?.map((e) => e as String)

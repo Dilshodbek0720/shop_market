@@ -53,7 +53,7 @@ class GridviewItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: "Raleway",
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     color: AppColors.c_003B40,
                     fontWeight: FontWeight.w700
                 ),),
@@ -66,7 +66,7 @@ class GridviewItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: "Raleway",
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                     color: AppColors.c_003B40,
                     fontWeight: FontWeight.w700
                 ),),
