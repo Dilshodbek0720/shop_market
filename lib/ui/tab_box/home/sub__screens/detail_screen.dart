@@ -58,25 +58,6 @@ class _DetailScreenState extends State<DetailScreen> {
                         fontWeight: FontWeight.w400),
                   ),
                 ),
-                25.ph,
-                // SelectTypeItem(valueChanged: (v) {}),
-                // 25.ph,
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 30.w),
-                //   child: Text(
-                //     "Choose size",
-                //     style: TextStyle(
-                //         fontSize: 18.sp,
-                //         fontWeight: FontWeight.w600,
-                //         color: AppColors.black),
-                //   ),
-                // ),
-                // 20.ph,
-                // SizeItem(valueChanged: (v) {
-                //   setState(() {
-                //     selectSize = v;
-                //   });
-                // }),
                 20.ph
               ],
             ),

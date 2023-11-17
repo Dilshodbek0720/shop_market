@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> categories = [];
   String activeCategoryName = "";
   bool isLoading = false;
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -61,9 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           }),
                       CategorySelector(categories: categories, onCategorySelected: (selectedCategory) {
-                        activeCategoryName = selectedCategory;
+                        if (selectedCategory == 0) {
+                          activeCategoryName = "";
+                        } else {
+                          activeCategoryName = categories[selectedCategory-1];
+                        }
+                        selectedIndex = selectedCategory;
                         _updateProducts();
-                      },),
+                      }, selectedIndex: selectedIndex,),
                       products.isNotEmpty ?
                       Padding(
                         padding: EdgeInsets.symmetric(

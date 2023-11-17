@@ -8,17 +8,18 @@ class CategorySelector extends StatefulWidget {
     super.key,
     required this.categories,
     required this.onCategorySelected,
+    required this.selectedIndex,
   });
 
   final List<String> categories;
-  final ValueChanged<String> onCategorySelected;
+  final ValueChanged<int> onCategorySelected;
+  final int selectedIndex;
 
   @override
   State<CategorySelector> createState() => _CategorySelectorState();
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +32,14 @@ class _CategorySelectorState extends State<CategorySelector> {
           ...List.generate(widget.categories.length + 1, (index) {
             return ZoomTapAnimation(
               onTap: () {
-                if (index == 0) {
-                  widget.onCategorySelected.call("");
-                } else {
-                  widget.onCategorySelected.call(widget.categories[index - 1]);
-                }
-                setState(() {
-                  selectedIndex = index;
-                });
+                widget.onCategorySelected.call(index);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 height: 40.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
-                  color: selectedIndex == index ? Colors.green : AppColors.black.withOpacity(0.1),
+                  color: widget.selectedIndex == index ? Colors.green : AppColors.black.withOpacity(0.1),
                 ),
                 margin: EdgeInsets.only(
                     left: index == 0 ? 20.w : 8.w,
