@@ -9,6 +9,7 @@ import 'package:shop_market/data/repository/product_repository.dart';
 import 'package:shop_market/services/api_service.dart';
 import 'package:shop_market/ui/app_routes.dart';
 import 'package:shop_market/utils/size/screen_size.dart';
+import 'blocs/client_order_bloc/client_order_bloc.dart';
 import 'cubits/tab/tab_cubit.dart';
 
 Future<void> main() async{
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
           BlocProvider(create: (context) => LoginCubit(context.read<LoginRepository>())),
           BlocProvider(create: (context) => ProductBloc(productRepository: context.read<ProductRepository>())),
           // BlocProvider(create: (context) => CoffeeBloc(coffeeRepo: context.read<CoffeeRepo>())),
-          // BlocProvider(create: (context) => OrderBloc(orderRepo: context.read<OrderRepo>()))
+          BlocProvider(create: (context) => ClientOrderBloc())
         ],
         child: const MyApp()
     ));

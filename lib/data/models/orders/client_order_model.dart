@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 
 class ClientOrderModelFields {
   static const String id = "_id";
-  static const String name = "name";
+  static const String tableName = "table_name";
+  static const String title = "title";
   static const String description = "description";
   static const String price = "price";
   static const String image = "image";
@@ -12,84 +13,93 @@ class ClientOrderModelFields {
 
 class ClientOrderModel extends Equatable {
   int? id;
-  final String name;
+  final String title;
   final String description;
-  final int price;
+  final String price;
   final String image;
   final int count;
+  final int productId;
 
   ClientOrderModel(
       {this.id,
-        required this.name,
+        required this.title,
         required this.description,
         required this.price,
         required this.image,
         required this.count,
+        required this.productId,
       });
 
   ClientOrderModel.initial()
       : this(
     id: 0,
-    name: '',
+    title: '',
     description: '',
-    price: 0,
+    price: '',
     image: '',
     count: 0,
+    productId: 0,
   );
 
   ClientOrderModel copyWith({
     int? id,
-    String? name,
+    String? title,
     String? description,
-    int? price,
+    String? price,
     String? image,
     int? count,
+    int? productId,
   }) =>
       ClientOrderModel(
         id: id ?? this.id,
-        name: name ?? this.name,
+        title: title ?? this.title,
         description: description ?? this.description,
         price: price ?? this.price,
         image: image ?? this.image,
         count: count ?? this.count,
+        productId: productId ?? this.productId,
       );
 
   factory ClientOrderModel.fromJson(Map<String, dynamic> json) => ClientOrderModel(
     id: json[ClientOrderModelFields.id] ?? 0,
-    name: json['name'] as String? ?? '',
+    title: json['title'] as String? ?? '',
     description: json['description'] as String? ?? '',
-    price: json['price'] as int? ?? 0,
+    price: json['price'] as String? ?? '',
     image: json['image'] as String? ?? '',
     count: json['count'] as int? ?? 0,
+    productId: json['productId'] as int? ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
     ClientOrderModelFields.id: id,
-    'name': name,
-    'description': description,
-    'price': price,
-    'image': image,
-    'count': count
+    ClientOrderModelFields.title: title,
+    ClientOrderModelFields.description: description,
+    ClientOrderModelFields.price: price,
+    ClientOrderModelFields.image: image,
+    ClientOrderModelFields.count: count,
+    ClientOrderModelFields.productId: productId,
   };
 
   @override
   String toString() {
     return '''
     id: $id
-    name: $name
+    title: $title
     description: $description
     price: $price
     image: $image
+    productId: $productId
         ''';
   }
 
   @override
   List<Object?> get props => [
     id,
-    name,
+    title,
     description,
     price,
     image,
     count,
+    productId,
   ];
 }
