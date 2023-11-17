@@ -11,8 +11,12 @@ import 'package:shop_market/ui/tab_box/home/widgets/custom_text_field.dart';
 import 'package:shop_market/ui/tab_box/home/widgets/gridview_item.dart';
 import 'package:shop_market/ui/tab_box/home/widgets/home_appbar.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
+import '../../../data/local/storage_repository.dart';
+import '../../../utils/constants/constants.dart';
+import '../../../utils/constants/storage_keys.dart';
 import '../../../utils/icons/app_icons.dart';
 import '../../../utils/ui_utils/search_by_name.dart';
+import '../../app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -77,15 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               products.length,
                                   (index) => GridviewItem(
                                   onTap: () {
-                                    // StorageRepository.getString(
-                                    //     StorageKeys.userRole) ==
-                                    //     AppConstants.client
-                                    //     ? Navigator.pushNamed(context,
-                                    //     RouteNames.detailScreen,
-                                    //     arguments: coffees[index])
-                                    //     : Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    //   return AddScreen(coffeeModel: coffees[index],);
-                                    // }));
+                                    StorageRepository.getString(
+                                        StorageKeys.userRole) ==
+                                        AppConstants.client
+                                        ? Navigator.pushNamed(context,
+                                        RouteNames.detailScreen,
+                                        arguments: products[index])
+                                        : Navigator.pushNamed(context,
+                                        RouteNames.detailScreen,
+                                        arguments: products[index]);
                                   },
                                   productModel: products[index])),
                         ),
