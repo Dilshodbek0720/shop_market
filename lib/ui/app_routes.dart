@@ -1,8 +1,5 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
-import 'package:shop_market/services/api_service.dart';
 import 'package:shop_market/ui/login/login_screen.dart';
 import 'package:shop_market/ui/splash/splash_screen.dart';
 import 'package:shop_market/ui/tab_box/home/sub__screens/detail_screen.dart';
