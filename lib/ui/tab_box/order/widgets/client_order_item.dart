@@ -7,8 +7,8 @@ import 'package:shop_market/utils/size/size_extension.dart';
 import '../../../../utils/colors/app_colors.dart';
 import '../../../../utils/icons/app_icons.dart';
 
-class OrderItem extends StatelessWidget {
-  const OrderItem({super.key, required this.imageUrl, required this.name, required this.description, required this.price, required this.onTap, required this.count});
+class ClientOrderItem extends StatelessWidget {
+  const ClientOrderItem({super.key, required this.imageUrl, required this.name, required this.description, required this.price, required this.onTap, required this.count});
   final String imageUrl;
   final String name;
   final String description;
@@ -71,7 +71,7 @@ class OrderItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "$name ${count!=1?count:""}",
+                      name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(

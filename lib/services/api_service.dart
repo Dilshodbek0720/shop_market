@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shop_market/data/models/orders/admin_order_model.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
 import 'package:shop_market/data/models/universal_data.dart';
 import 'package:shop_market/utils/constants/constants.dart';
@@ -159,7 +160,6 @@ class ApiService {
 
   Future<UniversalData> getAllCategoryProducts() async {
     Response response;
-    print("fs");
     try {
       response = await _dio.get("/products/categories");
       if (response.statusCode == 200) {
@@ -167,6 +167,27 @@ class ApiService {
         return UniversalData(
           data: (response.data as List?)
               ?.map((e) => e as String)
+              .toList() ??
+              [],
+        );
+      }
+      return UniversalData(error: "Error: ${response.statusCode}");
+    }on DioException catch (e) {
+      return UniversalData(error: "Dio Error: $e");
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
+
+  // ----------------CARTS--------------------
+  Future<UniversalData> getAllAdminOrders() async {
+    Response response;
+    try {
+      response = await _dio.get("/carts");
+      if (response.statusCode == 200) {
+        return UniversalData(
+          data: (response.data as List?)
+              ?.map((e) => AdminOrderModel.fromJson(e))
               .toList() ??
               [],
         );

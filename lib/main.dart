@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_market/blocs/product_bloc/product_bloc.dart';
 import 'package:shop_market/cubits/login/login_cubit.dart';
 import 'package:shop_market/data/local/storage_repository.dart';
+import 'package:shop_market/data/repository/client_order_repository.dart';
 import 'package:shop_market/data/repository/login_repository.dart';
 import 'package:shop_market/data/repository/product_repository.dart';
 import 'package:shop_market/services/api_service.dart';
@@ -26,13 +27,14 @@ class MainApp extends StatelessWidget {
     return MultiRepositoryProvider(providers: [
       RepositoryProvider(create: (context) => ProductRepository(apiService: apiService)),
       RepositoryProvider(create: (context) => LoginRepository(apiService: apiService)),
+      RepositoryProvider(create: (context) => OrderRepository(apiService: apiService)),
     ], child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => TabCubit()),
           BlocProvider(create: (context) => LoginCubit(context.read<LoginRepository>())),
           BlocProvider(create: (context) => ProductBloc(productRepository: context.read<ProductRepository>())),
           // BlocProvider(create: (context) => CoffeeBloc(coffeeRepo: context.read<CoffeeRepo>())),
-          BlocProvider(create: (context) => ClientOrderBloc())
+          BlocProvider(create: (context) => ClientOrderBloc(orderRepository: context.read<OrderRepository>())),
         ],
         child: const MyApp()
     ));

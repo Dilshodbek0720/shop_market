@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_market/data/local/local_database.dart';
+import 'package:shop_market/data/repository/client_order_repository.dart';
+import '../../data/models/orders/admin_order_model.dart';
 import '../../data/models/orders/client_order_model.dart';
 import '../../data/models/status/form_status.dart';
 import '../../data/models/universal_data.dart';
@@ -12,7 +14,7 @@ part 'client_order_event.dart';
 
 class ClientOrderBloc extends Bloc<ClientOrderEvent, ClientOrderStates> {
 
-  ClientOrderBloc()
+  ClientOrderBloc({required this.orderRepository})
       : super(
     ClientOrderStates(
       clientOrders: const [],
@@ -25,12 +27,16 @@ class ClientOrderBloc extends Bloc<ClientOrderEvent, ClientOrderStates> {
         description: '',
       ),
       status: FormStatus.pure,
+      adminOrders: const [],
     ),
   ) {
     on<AddClientOrderEvent>(addClientOrder);
     on<GetClientOrderEvent>(getClientOrders);
+    on<GetAdminOrderEvent>(getAdminOrders);
     on<DeleteClientOrderEvent>(deleteClientOrder);
   }
+
+  final OrderRepository orderRepository;
 
   Future<void> addClientOrder(AddClientOrderEvent event, Emitter<ClientOrderStates> emit) async {
     emit(state.copyWith(status: FormStatus.loading));
@@ -81,5 +87,22 @@ class ClientOrderBloc extends Bloc<ClientOrderEvent, ClientOrderStates> {
     }
   }
 
+  Future<void> getAdminOrders(
+      GetAdminOrderEvent event, Emitter<ClientOrderStates> emit) async {
+    emit(state.copyWith(status: FormStatus.loading));
+    UniversalData data = await orderRepository.getAllAdminOrders();
+    if (data.error.isEmpty) {
+      emit(
+        state.copyWith(
+          adminOrders: data.data,
+          status: FormStatus.success,
+        ),
+      );
+    } else {
+      emit(state.copyWith(
+        status: FormStatus.failure,
+      ));
+    }
+  }
 
 }

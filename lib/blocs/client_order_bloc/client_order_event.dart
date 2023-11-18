@@ -5,6 +5,8 @@ abstract class ClientOrderEvent {}
 
 class GetClientOrderEvent extends ClientOrderEvent {}
 
+class GetAdminOrderEvent extends ClientOrderEvent {}
+
 class AddClientOrderEvent extends ClientOrderEvent {
   final ClientOrderModel clientOrderModel;
 

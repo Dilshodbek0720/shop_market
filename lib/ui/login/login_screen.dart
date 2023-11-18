@@ -90,7 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state.status == FormStatus.authenticated) {
             if (context.mounted) {
               showRoleDialog(context);
-              print("Success");
             }
           } else if (state.status == FormStatus.failure) {
             showErrorMessage(message: state.statusMessage, context: context);
