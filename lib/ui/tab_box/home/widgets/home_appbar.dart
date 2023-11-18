@@ -21,7 +21,7 @@ class HomeAppbar extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22.sp),
                 ),
                 TextSpan(
-                  text: 'Julia',
+                  text: 'Alibek',
                   style: TextStyle(fontWeight: FontWeight.w500, color: AppColors.c_FFB067, fontSize: 22.sp),
                 ),
               ],

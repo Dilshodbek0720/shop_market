@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_market/utils/ui_utils/to_upper_word.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../../../utils/colors/app_colors.dart';
 
@@ -40,14 +41,15 @@ class _CategorySelectorState extends State<CategorySelector> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
                   color: widget.selectedIndex == index ? Colors.green : AppColors.black.withOpacity(0.1),
+                  border: Border.all(width: 0.5, color: AppColors.c_003B40)
                 ),
                 margin: EdgeInsets.only(
                     left: index == 0 ? 20.w : 8.w,
                     right: widget.categories.length == index ? 20.w : 8.w),
                 child: Center(
                   child: Text(
-                    index == 0 ? "All" : widget.categories[index - 1],
-                    style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                    index == 0 ? "All" : toUpperWord(word: widget.categories[index - 1]),
+                    style: TextStyle(color: widget.selectedIndex == index ? Colors.white : Colors.black, fontSize: 16.sp),
                   ),
                 ),
               ),

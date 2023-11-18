@@ -8,6 +8,5 @@ List<ProductModel> searchByName(List<ProductModel> models, String query) {
       results.add(model);
     }
   }
-  print(results);
   return results;
 }

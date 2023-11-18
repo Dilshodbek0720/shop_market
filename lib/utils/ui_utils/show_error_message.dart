@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
 import '../../ui/widgets/global_button.dart';
 import '../colors/app_colors.dart';
+import '../icons/app_icons.dart';
 import '../size/screen_size.dart';
 
 void showErrorMessage({
@@ -19,14 +21,13 @@ void showErrorMessage({
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // LottieBuilder.asset(AppIcons.error),
               30.ph,
               Text('ERROR!', style: Theme.of(context).dialogTheme.titleTextStyle),
               16.ph,
               Center(
                 child: Text(
                   message,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center,
                 ),
               ),

@@ -18,6 +18,7 @@ import '../../../data/models/products/product_model.dart';
 import '../../../data/models/user/user_model.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/icons/app_icons.dart';
+import '../../../utils/ui_utils/custom_toast.dart';
 import '../../../utils/ui_utils/total_price.dart';
 import '../../widgets/global_button.dart';
 import '../home/widgets/custom_appbar.dart';
@@ -55,10 +56,7 @@ class _OrderScreenState extends State<OrderScreen> {
             clientOrders = state.clientOrders;
           }else {
             adminOrders = state.adminOrders;
-            print(adminOrders);
           }
-          print(users);
-          print(products);
           return StorageRepository.getString(StorageKeys.userRole) == AppConstants.client ? (clientOrders.isNotEmpty
               ? Column(
                   children: [
@@ -80,6 +78,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       clientOrderId: clientOrders[index].id!),
                                 );
                                 context.read<ClientOrderBloc>().add(GetClientOrderEvent());
+                                customToast(message: "Order muvoffaqqiyatli o'chirildi!", color: Colors.green);
                               },
                             ),
                           ),
@@ -157,7 +156,9 @@ class _OrderScreenState extends State<OrderScreen> {
                 ],
               ));
         },
-        listener: (context, state) {},
+        listener: (context, state) {
+
+        },
       ),
     );
   }

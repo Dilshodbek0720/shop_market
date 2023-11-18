@@ -73,14 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       products.isNotEmpty ?
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 24.w, vertical: 12.h),
+                            horizontal: 22.w, vertical: 12.h),
                         child: GridView(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           gridDelegate:
                           SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 160 / 277.sp,
+                              childAspectRatio: 160 / 265.sp,
                               crossAxisSpacing: 10.w,
                               mainAxisSpacing: 10.h),
                           children: List.generate(
@@ -121,20 +121,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _updateCategories() async {
-    setState(() {
-      isLoading = true;
-    });
+    isLoading = true;
     UniversalData data = await context.read<ProductRepository>().getAllCategoriesProducts();
-    setState(() {
-      isLoading = false;
-      categories = data.data;
-    });
+    isLoading = false;
+    categories = data.data;
+    if(mounted){
+      setState(() {
+
+      });
+    }
   }
 
   _updateProducts() async {
     UniversalData data = await context.read<ProductRepository>().getCategoryProducts(categoryName: activeCategoryName);
-    setState(() {
-      products = data.data;
-    });
+    products = data.data;
+    if(mounted){
+      setState(() {
+
+      });
+    }
   }
 }

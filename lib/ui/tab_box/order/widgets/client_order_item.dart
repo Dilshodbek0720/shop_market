@@ -46,7 +46,9 @@ class ClientOrderItem extends StatelessWidget {
                 color: AppColors.c_EDF0EF
             ),
             child: Row(children: [
-              Container(
+              Stack(
+                children: [
+            Container(
                 width: 90.w,
                 height: 90.w,
                 decoration: BoxDecoration(
@@ -64,6 +66,18 @@ class ClientOrderItem extends StatelessWidget {
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
+              ),
+                  Positioned(
+                    top: -3,
+                    child: Container(
+                        padding: EdgeInsets.all(6.r),
+                        decoration: const BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle
+                        ),
+                        child: Text(count.toString())),
+                  )
+                ]
               ),
               25.pw,
               Expanded(

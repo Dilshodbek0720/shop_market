@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
@@ -20,7 +21,9 @@ class GridviewItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(20.r),
       child: Container(
+        padding: EdgeInsets.all(6.r),
         decoration: BoxDecoration(
+          color: AppColors.orangeTransparent,
             borderRadius: BorderRadius.circular(20.r)
         ),
         child: Column(
@@ -29,8 +32,8 @@ class GridviewItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: Container(
-                height: 208 * MediaQuery.of(context).size.height / figmaHeight,
-                width: 208 * MediaQuery.of(context).size.height / figmaHeight,
+                height: 190 * MediaQuery.of(context).size.height / figmaHeight,
+                width: 190 * MediaQuery.of(context).size.height / figmaHeight,
                 decoration: BoxDecoration(
                     borderRadius:
                     BorderRadius.circular(20.r)),
@@ -58,20 +61,38 @@ class GridviewItem extends StatelessWidget {
                     fontWeight: FontWeight.w700
                 ),),
             ),
-            const Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: Text("\$ ${productModel.price}",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: "Raleway",
-                    fontSize: 18.sp,
-                    color: AppColors.c_003B40,
-                    fontWeight: FontWeight.w700
-                ),),
+            Expanded(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Text("\$ ${productModel.price}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: "Raleway",
+                          fontSize: 18.sp,
+                          color: AppColors.c_003B40,
+                          fontWeight: FontWeight.w700
+                      ),),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 20.r,
+                    width: 20.r,
+                    child: SvgPicture.asset(AppIcons.starIcon),
+                  ),
+                  Text(
+                    "${productModel.ratingModel.rate}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                        color: AppColors.black),
+                  ),
+                  8.pw,
+                ],
+              ),
             ),
-            12.ph,
           ],
         ),
       ),

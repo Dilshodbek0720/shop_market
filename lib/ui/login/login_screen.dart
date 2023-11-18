@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         40.ph,
                         GlobalButton(
-                          title: "Sign Up",
+                          title: "Sign In",
                           radius: 100,
                           onTap: () {
                             if (password.isNotEmpty && username.isNotEmpty) {

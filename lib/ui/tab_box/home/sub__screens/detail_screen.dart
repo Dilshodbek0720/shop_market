@@ -9,6 +9,7 @@ import 'package:shop_market/ui/app_routes.dart';
 import 'package:shop_market/utils/constants/constants.dart';
 import 'package:shop_market/utils/constants/storage_keys.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
+import 'package:shop_market/utils/ui_utils/custom_toast.dart';
 import '../../../../cubits/tab/tab_cubit.dart';
 import '../../../../utils/colors/app_colors.dart';
 import '../widgets/counter_item.dart';
@@ -84,9 +85,10 @@ class _DetailScreenState extends State<DetailScreen> {
                   count: count,
                 )));
                 context.read<ClientOrderBloc>().add(GetClientOrderEvent());
+                customToast(message: "Product muvoffaqqiyatli qo'shildi!", color: Colors.green);
                 Navigator.pushReplacementNamed(context, RouteNames.tabBoxScreen);
               } else {
-
+                customToast(message: "Admin order qo'sha olmaydi!", color: Colors.red);
               }
             }, minusOnTap: () {
             if(count>1){

@@ -45,10 +45,8 @@ class LogOutItem extends StatelessWidget {
                     title: "OK",
                     textColor: Colors.white,
                     onTap: () async {
-                      // context.read<UserBloc>().clearUserModelState();
                       StorageRepository.deleteString(StorageKeys.userRole);
                       StorageRepository.deleteString(StorageKeys.userToken);
-                      // await context.read<AuthCubit>().logOutUser();
                       if (context.mounted) {
                         Navigator.pushReplacementNamed(
                             context, RouteNames.loginScreen);
