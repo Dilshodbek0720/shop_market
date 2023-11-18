@@ -1,7 +1,8 @@
 class AppIcons {
   // png
-  static const String splash = "assets/images/splash.jpg";
+  static const String splash = "assets/images/splash.webp";
   static const String dialogImage = "assets/images/dialog_image.jpg";
+  static const String shopImage = "assets/images/shop_dialog.png";
   static const String profile = "assets/images/profile.jpg";
 
   // svg

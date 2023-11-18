@@ -20,7 +20,9 @@ void showRoleDialog(BuildContext context) {
               fontWeight: FontWeight.bold
           ),
         ),
-        title: Image.asset(AppIcons.dialogImage, fit: BoxFit.cover,),
+        title: ClipRRect(
+            borderRadius: BorderRadius.circular(30.r),
+            child: Image.asset(AppIcons.shopImage, fit: BoxFit.cover,)),
         actions: [
           TextButton(
             onPressed: () {
