@@ -7,6 +7,7 @@ import 'package:shop_market/data/local/storage_repository.dart';
 import 'package:shop_market/data/repository/client_order_repository.dart';
 import 'package:shop_market/data/repository/login_repository.dart';
 import 'package:shop_market/data/repository/product_repository.dart';
+import 'package:shop_market/data/repository/user_repository.dart';
 import 'package:shop_market/services/api_service.dart';
 import 'package:shop_market/ui/app_routes.dart';
 import 'package:shop_market/utils/size/screen_size.dart';
@@ -28,6 +29,7 @@ class MainApp extends StatelessWidget {
       RepositoryProvider(create: (context) => ProductRepository(apiService: apiService)),
       RepositoryProvider(create: (context) => LoginRepository(apiService: apiService)),
       RepositoryProvider(create: (context) => OrderRepository(apiService: apiService)),
+      RepositoryProvider(create: (context) => UserRepository(apiService: apiService)),
     ], child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => TabCubit()),

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shop_market/data/models/orders/admin_order_model.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
 import 'package:shop_market/data/models/universal_data.dart';
+import 'package:shop_market/data/models/user/user_model.dart';
 import 'package:shop_market/utils/constants/constants.dart';
 
 class ApiService {
@@ -188,6 +189,27 @@ class ApiService {
         return UniversalData(
           data: (response.data as List?)
               ?.map((e) => AdminOrderModel.fromJson(e))
+              .toList() ??
+              [],
+        );
+      }
+      return UniversalData(error: "Error: ${response.statusCode}");
+    }on DioException catch (e) {
+      return UniversalData(error: "Dio Error: $e");
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
+
+  //-----------------USERS-------------------
+  Future<UniversalData> getAllUsers() async {
+    Response response;
+    try {
+      response = await _dio.get("/users");
+      if (response.statusCode == 200) {
+        return UniversalData(
+          data: (response.data as List?)
+              ?.map((e) => UserModel.fromJson(e))
               .toList() ??
               [],
         );

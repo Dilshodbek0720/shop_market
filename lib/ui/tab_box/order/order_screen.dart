@@ -5,11 +5,17 @@ import 'package:lottie/lottie.dart';
 import 'package:shop_market/blocs/client_order_bloc/client_order_bloc.dart';
 import 'package:shop_market/data/local/storage_repository.dart';
 import 'package:shop_market/data/models/orders/admin_order_model.dart';
+import 'package:shop_market/data/models/universal_data.dart';
+import 'package:shop_market/data/repository/product_repository.dart';
+import 'package:shop_market/data/repository/user_repository.dart';
+import 'package:shop_market/ui/tab_box/order/widgets/admin_order_item.dart';
 import 'package:shop_market/ui/tab_box/order/widgets/client_order_item.dart';
 import 'package:shop_market/utils/constants/constants.dart';
 import 'package:shop_market/utils/constants/storage_keys.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
 import '../../../data/models/orders/client_order_model.dart';
+import '../../../data/models/products/product_model.dart';
+import '../../../data/models/user/user_model.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/icons/app_icons.dart';
 import '../../../utils/ui_utils/total_price.dart';
@@ -24,6 +30,17 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  List<UserModel> users = [];
+  List<ProductModel> products = [];
+
+  @override
+  void initState() {
+    if(StorageRepository.getString(StorageKeys.userRole) == AppConstants.admin){
+      _init();
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +54,7 @@ class _OrderScreenState extends State<OrderScreen> {
           List<ClientOrderModel> clientOrders = state.clientOrders;
           List<AdminOrderModel> adminOrders = state.adminOrders;
 
-          return StorageRepository.getString(StorageKeys.userRole) == AppConstants.client ? clientOrders.isNotEmpty
+          return StorageRepository.getString(StorageKeys.userRole) == AppConstants.client ? (clientOrders.isNotEmpty
               ? Column(
                   children: [
                     Expanded(
@@ -112,10 +129,18 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                     )
                   ],
-                ):
-              adminOrders.isNotEmpty ?
-                  Column(children: [
-                    ...List.generate(adminOrders.length, (index) => Text(adminOrders[index].date))
+                )):(adminOrders.isNotEmpty ?
+              Column(children: [
+                    Expanded(child: ListView(
+                      children: [
+                        ...List.generate(adminOrders.length, (index) => AdminOrderItem(
+                          onTap: (v){ },
+                          userModel: users[adminOrders[index].userId],
+                          adminOrderModel: adminOrders[index],
+                          products: products,
+                        ))
+                      ],
+                    ))
                   ],) :
               Column(
                 children: [
@@ -125,11 +150,18 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                   )
                 ],
-              )
-          ;
+              ));
         },
         listener: (context, state) {},
       ),
     );
+  }
+
+  _init()async{
+    UniversalData userData = await context.read<UserRepository>().getAllUsers();
+    // ignore: use_build_context_synchronously
+    UniversalData productData = await context.read<ProductRepository>().getAllProducts();
+    users = userData.data;
+    products = productData.data;
   }
 }
