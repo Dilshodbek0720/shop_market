@@ -35,7 +35,8 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   void initState() {
-    _init();
+    _initProducts();
+    _initUsers();
     super.initState();
   }
   @override
@@ -161,10 +162,12 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Future<void> _init()async{
+  Future<void> _initUsers()async{
     UniversalData userData = await context.read<UserRepository>().getAllUsers();
     users = userData.data;
-    // ignore: use_build_context_synchronously
+  }
+
+  Future<void> _initProducts() async {
     UniversalData productData = await context.read<ProductRepository>().getAllProducts();
     products = productData.data;
   }

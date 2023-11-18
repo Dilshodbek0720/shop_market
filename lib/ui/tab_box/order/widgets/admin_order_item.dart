@@ -48,31 +48,63 @@ class AdminOrderItem extends StatelessWidget {
             ),
             child: ExpansionTile(
               title: Row(children: [
-                25.pw,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${userModel.nameModel.firstname.substring(0,1).toUpperCase()}${userModel.nameModel.firstname.substring(1)} ${userModel.nameModel.lastname.substring(0,1).toUpperCase()}${userModel.nameModel.lastname.substring(1)}",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: "Raleway",
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.c_003B40,
+                      ),
+                    ),
+                    4.ph,
+                    Text(userModel.phone,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontFamily: "Raleway",
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.c_003B40,
+                      ),
+                    ),
+                  ],
+                ),
               ],),
               children: [
-                ...List.generate(adminOrderModel.products.length, (index) => Container(
+                ...List.generate(adminOrderModel.products.length, (index) => SizedBox(
                   child: Row(
                     children: [
-                    Container(
-                      width: 60.w,
-                      height: 60.w,
-                      margin: EdgeInsets.symmetric(vertical: 6.h),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r)
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.r),
-                        child: CachedNetworkImage(
-                          imageUrl: products[adminOrderModel.products[index].productId].image,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Padding(
-                              padding: EdgeInsets.all(10.r),
-                              child: Lottie.asset(AppIcons.loading)
+                    Stack(
+                      children: [
+                        Container(
+                          width: 60.w,
+                          height: 60.w,
+                          margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 6.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r)
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.r),
+                            child: CachedNetworkImage(
+                              imageUrl: products[adminOrderModel.products[index].productId].image,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Padding(
+                                  padding: EdgeInsets.all(10.r),
+                                  child: Lottie.asset(AppIcons.loading)
+                              ),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          padding: EdgeInsets.all(6.r),
+                          decoration: const BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle
+                          ),
+                            child: Text(adminOrderModel.products[index].quantity.toString()))
+                      ],
                     ),
                       12.pw,
                       Expanded(
