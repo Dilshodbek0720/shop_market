@@ -35,7 +35,6 @@ class MainApp extends StatelessWidget {
           BlocProvider(create: (context) => TabCubit()),
           BlocProvider(create: (context) => LoginCubit(context.read<LoginRepository>())),
           BlocProvider(create: (context) => ProductBloc(productRepository: context.read<ProductRepository>())),
-          // BlocProvider(create: (context) => CoffeeBloc(coffeeRepo: context.read<CoffeeRepo>())),
           BlocProvider(create: (context) => ClientOrderBloc(orderRepository: context.read<OrderRepository>())),
         ],
         child: const MyApp()
