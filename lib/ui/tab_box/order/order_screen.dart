@@ -35,12 +35,9 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   void initState() {
-    if(StorageRepository.getString(StorageKeys.userRole) == AppConstants.admin){
-      _init();
-    }
+    _init();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +48,16 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
       body: BlocConsumer<ClientOrderBloc, ClientOrderStates>(
         builder: (context, state) {
-          List<ClientOrderModel> clientOrders = state.clientOrders;
-          List<AdminOrderModel> adminOrders = state.adminOrders;
-
+          List<ClientOrderModel> clientOrders = [];
+          List<AdminOrderModel> adminOrders = [];
+          if(StorageRepository.getString(StorageKeys.userRole) == AppConstants.client) {
+            clientOrders = state.clientOrders;
+          }else {
+            adminOrders = state.adminOrders;
+            print(adminOrders);
+          }
+          print(users);
+          print(products);
           return StorageRepository.getString(StorageKeys.userRole) == AppConstants.client ? (clientOrders.isNotEmpty
               ? Column(
                   children: [
@@ -129,7 +133,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                     )
                   ],
-                )):(adminOrders.isNotEmpty ?
+                )):(adminOrders.isNotEmpty&&users.isNotEmpty&&products.isNotEmpty ?
               Column(children: [
                     Expanded(child: ListView(
                       children: [
@@ -157,11 +161,11 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  _init()async{
+  Future<void> _init()async{
     UniversalData userData = await context.read<UserRepository>().getAllUsers();
+    users = userData.data;
     // ignore: use_build_context_synchronously
     UniversalData productData = await context.read<ProductRepository>().getAllProducts();
-    users = userData.data;
     products = productData.data;
   }
 }
