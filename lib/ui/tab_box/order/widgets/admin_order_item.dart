@@ -20,7 +20,7 @@ class AdminOrderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
       child: Slidable(
         endActionPane: ActionPane(
           motion: const ScrollMotion(),

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_market/blocs/client_order_bloc/client_order_bloc.dart';
+import 'package:shop_market/data/local/storage_repository.dart';
 import 'package:shop_market/data/models/orders/client_order_model.dart';
 import 'package:shop_market/data/models/products/product_model.dart';
 import 'package:shop_market/ui/app_routes.dart';
+import 'package:shop_market/utils/constants/constants.dart';
+import 'package:shop_market/utils/constants/storage_keys.dart';
 import 'package:shop_market/utils/size/size_extension.dart';
 import '../../../../cubits/tab/tab_cubit.dart';
 import '../../../../utils/colors/app_colors.dart';
@@ -70,17 +73,21 @@ class _DetailScreenState extends State<DetailScreen> {
           CounterItem(
             count: count,
             onTap: (){
-              context.read<TabCubit>().changeTabIndex(1);
-              BlocProvider.of<ClientOrderBloc>(context).add(AddClientOrderEvent(clientOrderModel: ClientOrderModel(
-                productId: widget.productModel.id,
-                description: widget.productModel.description,
-                price: widget.productModel.price.toString(),
-                title: widget.productModel.title,
-                image: widget.productModel.image,
-                count: count,
-              )));
-              context.read<ClientOrderBloc>().add(GetClientOrderEvent());
-              Navigator.pushReplacementNamed(context, RouteNames.tabBoxScreen);
+              if(StorageRepository.getString(StorageKeys.userRole) == AppConstants.client){
+                context.read<TabCubit>().changeTabIndex(1);
+                BlocProvider.of<ClientOrderBloc>(context).add(AddClientOrderEvent(clientOrderModel: ClientOrderModel(
+                  productId: widget.productModel.id,
+                  description: widget.productModel.description,
+                  price: widget.productModel.price.toString(),
+                  title: widget.productModel.title,
+                  image: widget.productModel.image,
+                  count: count,
+                )));
+                context.read<ClientOrderBloc>().add(GetClientOrderEvent());
+                Navigator.pushReplacementNamed(context, RouteNames.tabBoxScreen);
+              } else {
+
+              }
             }, minusOnTap: () {
             if(count>1){
               setState(() {
